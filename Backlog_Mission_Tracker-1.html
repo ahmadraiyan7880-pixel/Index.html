@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10152d">
+<title>Backlog Mission Tracker</title>
+<style>
+:root{--bg:#0b1022;--panel:#151d38;--panel2:#1c2748;--text:#f4f6ff;--muted:#aab5d4;--gold:#ffd166;--cyan:#68e1fd;--green:#55e6a5}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#273768 0,transparent 34%),linear-gradient(145deg,#090e1f,#141b35 65%,#21183c);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:18px 14px 40px}
+main{max-width:720px;margin:auto}.hero{padding:22px 18px;border:1px solid #ffffff20;border-radius:24px;background:linear-gradient(135deg,#283c78dd,#512b69bb);box-shadow:0 18px 50px #0005}
+.kicker{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:2px}.hero h1{font-size:clamp(28px,7vw,42px);line-height:1.05;margin:10px 0}.hero p{color:#e1e7ff;margin:8px 0 0}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}.stat{background:#080e26aa;border:1px solid #ffffff20;border-radius:15px;padding:12px}.stat b{display:block;font-size:23px;color:var(--gold)}.stat span{font-size:12px;color:var(--muted)}
+.card{background:#131c36ed;border:1px solid #ffffff1c;border-radius:20px;padding:17px;margin-top:15px}.card h2{font-size:18px;margin:0 0 12px}.muted{color:var(--muted);font-size:13px}.progress{height:10px;border-radius:20px;background:#303b5c;overflow:hidden;margin:10px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .2s}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.subject{padding:12px 0;border-top:1px solid #ffffff12}.subject:first-of-type{border-top:0}.subject strong{display:block}.subject small{color:var(--muted)}.subject input{accent-color:var(--green);width:20px;height:20px}
+.task{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #ffffff12}.task:last-child{border:0}.task input{width:20px;height:20px;accent-color:var(--green);flex-shrink:0;margin-top:2px}.task label{line-height:1.35}.task small{display:block;color:var(--muted);margin-top:3px}
+input[type=number]{width:90px;padding:9px;border-radius:10px;border:1px solid #ffffff30;background:#0b1229;color:white;font-size:16px}
+button{border:0;border-radius:12px;padding:11px 14px;font-weight:800;background:var(--gold);color:#201832;cursor:pointer}button.secondary{background:#293657;color:white;border:1px solid #ffffff20}.buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.quote{text-align:center;color:var(--gold);font-weight:800;font-size:17px;padding:16px 6px 4px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 4px}
+</style>
+</head>
+<body><main>
+<section class="hero">
+<div class="kicker">FOCUS • CONSISTENCY • COMEBACK</div>
+<h1>BACKLOG<br>MISSION</h1>
+<p>हर दिन थोड़ा आगे। बहाने नहीं, बस अगला लेक्चर।</p>
+<div class="stats">
+<div class="stat"><b>137h 37m</b><span>कुल दर्ज वीडियो बैकलॉग*</span></div>
+<div class="stat"><b>19 Nov</b><span>शुरुआत की तारीख</span></div>
+</div>
+</section>
+<section class="card">
+<div class="row"><h2>आज का मिशन</h2><span class="muted" id="today"></span></div>
+<div class="task"><input type="checkbox" id="math"><label for="math"><b>Maths पेपर</b><small>2 घंटे</small></label></div>
+<div class="task"><input type="checkbox" id="school"><label for="school"><b>स्कूल का काम</b><small>1 घंटा 30 मिनट</small></label></div>
+<div class="task"><input type="checkbox" id="backlog"><label for="backlog"><b>बैकलॉग सेशन</b><small>रात 9 PM – 1 AM तक का लक्ष्य; नींद कम करके पूरा न करें</small></label></div>
+<div class="task"><input type="checkbox" id="notes"><label for="notes"><b>आज के लेक्चर के नोट्स / रीकॉल</b><small>छोटा रिविज़न</small></label></div>
+<div class="row" style="margin-top:12px"><label for="hours">आज बैकलॉग के घंटे</label><input id="hours" type="number" min="0" max="4" step=".25" value="0"></div>
+<div class="progress"><div class="bar" id="daybar"></div></div>
+<div class="muted" id="daytext">0 / 4 घंटे पूरे</div>
+</section>
+<section class="card">
+<div class="row"><h2>Subject progress</h2><span class="muted" id="doneCount">0 / 8 पूरे</span></div>
+<div class="progress"><div class="bar" id="allbar"></div></div>
+<div id="subjects">
+<div class="subject row"><div><strong>Chemistry</strong><small>25h 25m</small></div><input type="checkbox" data-sub="chem" aria-label="Chemistry complete"></div>
+<div class="subject row"><div><strong>Physics</strong><small>10h 24m</small></div><input type="checkbox" data-sub="physics" aria-label="Physics complete"></div>
+<div class="subject row"><div><strong>Biology</strong><small>2h 18m</small></div><input type="checkbox" data-sub="biology" aria-label="Biology complete"></div>
+<div class="subject row"><div><strong>Mathematics backlog</strong><small>3h 37m</small></div><input type="checkbox" data-sub="maths" aria-label="Mathematics complete"></div>
+<div class="subject row"><div><strong>Social Studies</strong><small>42h 12m</small></div><input type="checkbox" data-sub="sst" aria-label="Social Studies complete"></div>
+<div class="subject row"><div><strong>Hindi</strong><small>16h 31m + 1 duration missing</small></div><input type="checkbox" data-sub="hindi" aria-label="Hindi complete"></div>
+<div class="subject row"><div><strong>English</strong><small>25h 44m</small></div><input type="checkbox" data-sub="english" aria-label="English complete"></div>
+<div class="subject row"><div><strong>AI / IT</strong><small>11h 26m</small></div><input type="checkbox" data-sub="ai" aria-label="AI complete"></div>
+</div>
+<div class="muted">किसी विषय को तभी टिक करो जब उसके सभी लेक्चर पूरे हो जाएँ। अतिरिक्त English topics इस कुल में शामिल नहीं हैं।</div>
+</section>
+<section class="card">
+<h2>याद रखो</h2>
+<div class="quote">“Consistency beats intensity.”</div>
+<p class="muted" style="text-align:center">बैकलॉग पूरा करना है, नींद कुर्बान करके नहीं। 8–10 घंटे की नींद का लक्ष्य रखो।</p>
+<div class="buttons"><button class="secondary" id="reset">आज के चेकबॉक्स रीसेट</button><button id="clear">पूरा डेटा रीसेट</button></div>
+</section>
+<footer>*दर्ज समय में Hindi का एक टॉपिक और कुछ संभावित अतिरिक्त English topics शामिल नहीं हैं। डेटा इसी ब्राउज़र में सेव होता है।</footer>
+</main>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const dateKey=()=>new Date().toISOString().slice(0,10);
+const key='backlogMissionTrackerV1';
+let state={};
+try{state=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){state={}}
+function save(){localStorage.setItem(key,JSON.stringify(state))}
+function load(){
+ const today=dateKey(); $('#today').textContent=new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+ const daily=state[today]||{};
+ ['math','school','backlog','notes'].forEach(id=>$('#'+id).checked=!!daily[id]);
+ $('#hours').value=daily.hours||0;
+ $$('[data-sub]').forEach(el=>el.checked=!!state.subjects?.[el.dataset.sub]);
+ update();
+}
+function update(){
+ const today=dateKey(); state[today]=state[today]||{};
+ ['math','school','backlog','notes'].forEach(id=>state[today][id]=$('#'+id).checked);
+ state[today].hours=Number($('#hours').value)||0;
+ const h=Math.max(0,Math.min(4,state[today].hours));
+ $('#daybar').style.width=(h/4*100)+'%'; $('#daytext').textContent=`${h} / 4 घंटे पूरे`;
+ const subs=$$('[data-sub]'); const n=subs.filter(x=>x.checked).length;
+ $('#allbar').style.width=(n/subs.length*100)+'%'; $('#doneCount').textContent=`${n} / ${subs.length} पूरे`;
+ state.subjects={};subs.forEach(x=>state.subjects[x.dataset.sub]=x.checked);save();
+}
+['math','school','backlog','notes','hours'].forEach(id=>$('#'+id).addEventListener('change',update));
+$$('[data-sub]').forEach(x=>x.addEventListener('change',update));
+$('#reset').onclick=()=>{['math','school','backlog','notes'].forEach(id=>$('#'+id).checked=false);$('#hours').value=0;update()};
+$('#clear').onclick=()=>{if(confirm('क्या सच में पूरा tracker data मिटाना है?')){state={};save();load()}};
+load();
+</script></body></html>
